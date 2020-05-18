@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>tp-fil-rouge</display-name>
+  
+  <!-- Session timeout -->
+  <session-config> 
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<servlet>
+  	<servlet-name>CreationClient</servlet-name>
+		<servlet-class>com.sdzee.servlets.CreationClient</servlet-class>
+	</servlet>
+	<servlet>
+  	<servlet-name>CreationCommande</servlet-name>
+		<servlet-class>com.sdzee.servlets.CreationCommande</servlet-class>
+	</servlet>
+	<servlet>
+  	<servlet-name>Connexion</servlet-name>
+		<servlet-class>com.sdzee.servlets.Connexion</servlet-class>
+	</servlet>
+	<servlet>
+  	<servlet-name>Deconnexion</servlet-name>
+		<servlet-class>com.sdzee.servlets.Deconnexion</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>CreationClient</servlet-name>
+		<url-pattern>/creationClient</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreationCommande</servlet-name>
+		<url-pattern>/creationCommande</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Connexion</servlet-name>
+		<url-pattern>/connexion</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Deconnexion</servlet-name>
+		<url-pattern>/deconnexion</url-pattern>
+	</servlet-mapping>
+	
+	<!-- filters -->
+	<filter>
+		<filter-name>RestrictionFilter</filter-name>
+		<filter-class>com.sdzee.filters.RestrictionFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+</web-app>
