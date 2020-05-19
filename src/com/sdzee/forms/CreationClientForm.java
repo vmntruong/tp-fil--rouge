@@ -118,7 +118,6 @@ public class CreationClientForm {
 	
 	private String getValeurChamp(HttpServletRequest request, String champ) {
 		String valeur = ((String) request.getParameter(champ)).trim();
-		
 		return valeur.isBlank() ? null : valeur ;
 	}
 }
