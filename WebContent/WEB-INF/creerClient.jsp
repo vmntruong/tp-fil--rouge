@@ -11,8 +11,10 @@
 		<c:import url="inc/menu.jsp"></c:import>
 	  <div>
 	    <form method="post" action="creationClient">
-	    	<c:import url="inc/creerClientFieldSet.jsp"></c:import>
-	      
+	    	<fieldset>
+	    	<legend>Info du client</legend>
+		    	<c:import url="inc/creerClientFieldSet.jsp"></c:import>
+	      </fieldset>
 	      <input type="submit" value="Valider"  />
 	      <input type="reset" value="Remettre à zéro" /> <br />
 	    </form>	

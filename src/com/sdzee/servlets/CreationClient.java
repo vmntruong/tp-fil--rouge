@@ -3,7 +3,6 @@ package com.sdzee.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,7 @@ import com.sdzee.forms.CreationClientForm;
 
 public class CreationClient extends HttpServlet {
 	public static final String ATT_CLIENT = "client";
-	public static final String ATT_CLIENT_FORM = "clientForm";
+	public static final String ATT_FORM = "form";
 	public static final String VUE_CREATION = "/WEB-INF/creerClient.jsp";
 	public static final String VUE_AFFICHAGE = "/WEB-INF/afficherClient.jsp";
 	
@@ -60,7 +59,7 @@ public class CreationClient extends HttpServlet {
   	 	}
 		
 		request.setAttribute( ATT_CLIENT, monClient );
-		request.setAttribute( ATT_CLIENT_FORM, clientForm );
+		request.setAttribute( ATT_FORM, clientForm );
 		
 		if (clientForm.getErreurs().isEmpty()) {
 			this.getServletContext().getRequestDispatcher( VUE_AFFICHAGE ).forward(request, response);
