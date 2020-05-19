@@ -33,35 +33,34 @@ public class CreationClient extends HttpServlet {
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) 
 			throws ServletException, IOException {
-		
-		Client monClient = new Client();
-		CreationClientForm clientForm = new CreationClientForm();
+		/* Préparation de l'objet formulaire */
+		CreationClientForm form = new CreationClientForm();
+		/* Traitement de la requête et récupération du bean en résultant */
+  	 	Client client = form.creerClient(request);
 		/* Récupération de la session depuis la requête */
   	 	HttpSession session = request.getSession();
-		
-  	 	monClient = clientForm.creerClient(request);
-		
+  	 	
 		/**
   	  	* Si aucune erreur de validation n'a eu lieu, alors ajout de la liste de
   	  	* Client à la session, sinon on fait rien
   	  	*/
-  	 	if ( clientForm.getErreurs().isEmpty() ) {
+  	 	if ( form.getErreurs().isEmpty() ) {
   	 		List<Client> clientList = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
   	 		if (clientList != null) {
-  	 			clientList.add(monClient);
+  	 			clientList.add(client);
   	 			session.setAttribute( ATT_SESSION_CLIENT_LIST, clientList );
   	 		}
   	 		else {
   	 			List<Client> li = new ArrayList<Client>();
-  	 			li.add(monClient);
+  	 			li.add(client);
   	 			session.setAttribute( ATT_SESSION_CLIENT_LIST, li );
   	 		}
   	 	}
 		
-		request.setAttribute( ATT_CLIENT, monClient );
-		request.setAttribute( ATT_FORM, clientForm );
+		request.setAttribute( ATT_CLIENT, client );
+		request.setAttribute( ATT_FORM, form );
 		
-		if (clientForm.getErreurs().isEmpty()) {
+		if (form.getErreurs().isEmpty()) {
 			this.getServletContext().getRequestDispatcher( VUE_AFFICHAGE ).forward(request, response);
 		} else {
 			this.getServletContext().getRequestDispatcher( VUE_CREATION ).forward(request, response);
