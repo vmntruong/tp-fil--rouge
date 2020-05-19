@@ -44,7 +44,7 @@ public class ConnexionForm {
 		utilisateur.setMotDePasse(motDePasse);
 		
 		if (erreurs.isEmpty()) {
-			resultat = "Vous êtes connecté: " + email;
+			resultat = "Succès de la connexion";
 		} else {
 			resultat = "Échec de la connexion";
 		}

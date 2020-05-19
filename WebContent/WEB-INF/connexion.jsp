@@ -29,6 +29,9 @@
 		</fieldset>
 		
 		<p class="${ empty form.erreurs? 'succes' : 'info' }">${ form.resultat }</p>
+		<c:if test="${ !empty sessionScope.sessionUtilisateur }">
+			<p class="succes">Vous êtes connecté(e) sous <c:out value="${ sessionScope.sessionUtilisateur.email }" /></p>
+		</c:if>
 		<input type="submit" value="Valider"  />
 	  <input type="reset" value="Remettre à zéro" /> <br />
 	</form>
