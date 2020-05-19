@@ -42,7 +42,6 @@
 	</servlet-mapping>
 	
 	<!-- filters -->
-	<!--  
 	<filter>
 		<filter-name>RestrictionFilter</filter-name>
 		<filter-class>com.sdzee.filters.RestrictionFilter</filter-class>
@@ -51,5 +50,5 @@
 	<filter-mapping>
 		<filter-name>RestrictionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping> -->
+	</filter-mapping>
 </web-app>
