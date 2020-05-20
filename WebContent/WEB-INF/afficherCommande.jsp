@@ -17,11 +17,11 @@
 		Info du client: 
 	</p>
 	<p>
-		Nom : ${ client.nom } <br />
-		Prénom: ${ client.prenom } <br />
-		Adresse: ${ client.adresse } <br />
-		Numéro de téléhone: ${ client.telephone } <br />
-		Email: ${ client.email }
+		Nom : ${ commande.client.nom } <br />
+		Prénom: ${ commande.client.prenom } <br />
+		Adresse: ${ commande.client.adresse } <br />
+		Numéro de téléhone: ${ commande.client.telephone } <br />
+		Email: ${ commande.client.email }
 	</p>
 	
 	<p>

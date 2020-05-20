@@ -20,6 +20,10 @@
 		<servlet-class>com.sdzee.servlets.ListerClients</servlet-class>
 	</servlet>
 	<servlet>
+  	<servlet-name>ListerCommandes</servlet-name>
+		<servlet-class>com.sdzee.servlets.ListerCommandes</servlet-class>
+	</servlet>
+	<servlet>
   	<servlet-name>Connexion</servlet-name>
 		<servlet-class>com.sdzee.servlets.Connexion</servlet-class>
 	</servlet>
@@ -39,6 +43,10 @@
 	<servlet-mapping>
 		<servlet-name>ListerClients</servlet-name>
 		<url-pattern>/listerClients</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ListerCommandes</servlet-name>
+		<url-pattern>/listerCommandes</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Connexion</servlet-name>

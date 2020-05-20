@@ -32,7 +32,9 @@
 				</c:forEach>
 			</table>
 		</c:when>
-		<c:otherwise></c:otherwise>
+		<c:otherwise>
+			<p class="info">Aucun client créé</p>
+		</c:otherwise>
 	</c:choose>
 	
 </body>
