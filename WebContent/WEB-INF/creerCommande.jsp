@@ -14,8 +14,38 @@
 	    <form method="post" action="creationCommande">
 	    	<fieldset>
 	    		<legend>Informations client</legend>
-	      	<c:import url="inc/creerClientFieldSet.jsp"></c:import>
+	    		<label for="isNewClient">Nouveau client ? <span class="requis">*</span></label>
+	    		<input type="radio" id="newClient" name="isNewClient" value="isNewClient" checked
+	    		onclick="check(this.value)" />
+	    		<label style="float:none">Oui</label>
+	    		<input type="radio" id="notNewClient" name="isNewClient" value="notNewClient"
+	    		onclick="check(this.value)" />
+	    		<label style="float:none">Non</label>
+	      	<br/>
+	      	<br/>
+	      	<!-- Display the fields to fill or the dropdown list of clients created -->
+	      	<div id="clientFields">
+	      		<c:import url="inc/creerClientFieldSet.jsp"></c:import>
+	      	</div>
+	      	<!-- not display this list as default -->
+	      	<select id="dropdownClientList" style="display:none">
+					  <option value="undefined">Choisir un client...</option>
+					  <option value="xxx">Client XXX</option>
+					</select>
 	      </fieldset>
+	      
+	      <script>
+		      function check(value) {
+		    	  if ( value == "isNewClient" ) {
+		    		  document.getElementById("clientFields").style.display = "";
+		    		  document.getElementById("dropdownClientList").style.display = "none";
+		    	  }
+		    	  else {
+		    		  document.getElementById("clientFields").style.display = "none";
+		    		  document.getElementById("dropdownClientList").style.display = "";
+		    	  }
+		    	}
+			  </script>
 	      
 	      <fieldset>
 	        <legend>Informations commande</legend>
