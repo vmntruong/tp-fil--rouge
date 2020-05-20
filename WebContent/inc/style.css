@@ -58,3 +58,23 @@ div#menu{
 div#corps{
 	margin: 10px;
 }
+
+/* Tables -------------------------------------------------------------------------------------- */
+table {
+	border-collapse: collapse;
+  width: 100%;
+}
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+th {
+	color: #2d93e3;
+	text-align: left;
+  padding: 8px;
+	border: 1px solid #2d93e3;
+}
+tr:nth-child(even) {
+  background-color: #EFEFEF;
+}
