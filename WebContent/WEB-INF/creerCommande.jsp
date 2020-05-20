@@ -28,9 +28,15 @@
 	      		<c:import url="inc/creerClientFieldSet.jsp"></c:import>
 	      	</div>
 	      	<!-- not display this list as default -->
-	      	<select id="dropdownClientList" style="display:none">
+	      	<select id="dropdownClientList" name="dropdownClientList" style="display:none">
 					  <option value="undefined">Choisir un client...</option>
-					  <option value="xxx">Client XXX</option>
+					  <c:if test="${ !empty listClient }">
+					  	<c:set var="index" value="0" />
+					  	<c:forEach var="client" items="${ listClient }">
+					  		<option value="${ index }">${ client.nom } ${ client.prenom }</option>
+					  		<c:set var="index" value="${ index+1 }" />
+					  	</c:forEach>
+					  </c:if>					  
 					</select>
 	      </fieldset>
 	      
