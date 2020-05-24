@@ -28,6 +28,10 @@
 		<servlet-class>com.sdzee.servlets.SuppressionClient</servlet-class>
 	</servlet>
 	<servlet>
+  	<servlet-name>SuppressionCommande</servlet-name>
+		<servlet-class>com.sdzee.servlets.SuppressionCommande</servlet-class>
+	</servlet>
+	<servlet>
   	<servlet-name>Connexion</servlet-name>
 		<servlet-class>com.sdzee.servlets.Connexion</servlet-class>
 	</servlet>
@@ -55,6 +59,10 @@
 	<servlet-mapping>
 		<servlet-name>SuppressionClient</servlet-name>
 		<url-pattern>/suppressionClient</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SuppressionCommande</servlet-name>
+		<url-pattern>/suppressionCommande</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Connexion</servlet-name>

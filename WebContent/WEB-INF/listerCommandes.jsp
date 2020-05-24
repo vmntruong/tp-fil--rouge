@@ -22,9 +22,11 @@
 					<th>Statut de paiement</th>
 					<th>Mode de livraison</th>
 					<th>Statut de livraison</th>
+					<th>Action</th>
 				</tr>
+				<c:set var="index" value="0"/>
 				<c:forEach var="commande" items="${ commandeList }">
-					<tr>
+					<tr id="${ index }">
 						<td>${ commande.client.nom } ${ commande.client.prenom }</td>
 						<td>${ commande.date }</td>
 						<td>${ commande.montant }</td>
@@ -32,6 +34,10 @@
 						<td>${ commande.statutPaiement }</td>
 						<td>${ commande.modeLivraison }</td>
 						<td>${ commande.statutLivraison }</td>
+						<td><a href="<c:url value="/suppressionCommande?id=${ index }"/>">
+							<img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" />
+						</a></td>
+						<c:set var="index" value="${ index+1 }" />
 					</tr>
 				</c:forEach>
 			</table>

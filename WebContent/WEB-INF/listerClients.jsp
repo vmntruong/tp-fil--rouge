@@ -30,7 +30,9 @@
 						<td>${ client.adresse }</td>
 						<td>${ client.telephone }</td>
 						<td>${ client.email }</td>
-						<td><a href="<c:url value="/suppressionClient?id=${ index }"/>"><img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" /></a></td>
+						<td><a href="<c:url value="/suppressionClient?id=${ index }"/>">
+							<img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" />
+						</a></td>
 						<c:set var="index" value="${ index+1 }" />
 					</tr>
 				</c:forEach>
