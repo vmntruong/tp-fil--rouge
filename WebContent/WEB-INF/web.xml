@@ -24,6 +24,10 @@
 		<servlet-class>com.sdzee.servlets.ListerCommandes</servlet-class>
 	</servlet>
 	<servlet>
+  	<servlet-name>SuppressionClient</servlet-name>
+		<servlet-class>com.sdzee.servlets.SuppressionClient</servlet-class>
+	</servlet>
+	<servlet>
   	<servlet-name>Connexion</servlet-name>
 		<servlet-class>com.sdzee.servlets.Connexion</servlet-class>
 	</servlet>
@@ -47,6 +51,10 @@
 	<servlet-mapping>
 		<servlet-name>ListerCommandes</servlet-name>
 		<url-pattern>/listerCommandes</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SuppressionClient</servlet-name>
+		<url-pattern>/suppressionClient</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Connexion</servlet-name>

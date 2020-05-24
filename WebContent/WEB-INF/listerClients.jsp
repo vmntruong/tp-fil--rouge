@@ -22,14 +22,16 @@
 					<th>Email</th>
 					<th>Action</th>
 				</tr>
+				<c:set var="index" value="0"/>
 				<c:forEach var="client" items="${ clientList }">
-					<tr>
+					<tr id="${ index }">
 						<td>${ client.nom }</td>
 						<td>${ client.prenom }</td>
 						<td>${ client.adresse }</td>
 						<td>${ client.telephone }</td>
 						<td>${ client.email }</td>
-						<td><img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" /></td>
+						<td><a href="<c:url value="/suppressionClient?id=${ index }"/>"><img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" /></a></td>
+						<c:set var="index" value="${ index+1 }" />
 					</tr>
 				</c:forEach>
 			</table>
