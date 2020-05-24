@@ -20,6 +20,7 @@
 					<th>Adresse</th>
 					<th>Téléphone</th>
 					<th>Email</th>
+					<th>Action</th>
 				</tr>
 				<c:forEach var="client" items="${ clientList }">
 					<tr>
@@ -28,6 +29,7 @@
 						<td>${ client.adresse }</td>
 						<td>${ client.telephone }</td>
 						<td>${ client.email }</td>
+						<td><img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" /></td>
 					</tr>
 				</c:forEach>
 			</table>
