@@ -30,7 +30,7 @@ public class CreationCommande extends HttpServlet {
    	/* Récupération de la liste des clients de la session */
    	List<Client> clientList = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
    	
-   	if ( !clientList.isEmpty() && clientList.size() > 0 ) {
+   	if ( clientList != null && !clientList.isEmpty() && clientList.size() > 0 ) {
    		request.setAttribute(ATT_CLIENT_LIST, clientList);
    	} else {
    		request.setAttribute(ATT_CLIENT_LIST, null);
