@@ -75,6 +75,10 @@ th {
   padding: 8px;
 	border: 1px solid #2d93e3;
 }
+th.action {
+	border-color: #9a0000 #9a0000 #9a0000;
+	color: #9a0000;
+}
 tr:nth-child(even) {
   background-color: #EFEFEF;
 }

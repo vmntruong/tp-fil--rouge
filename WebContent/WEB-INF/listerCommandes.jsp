@@ -22,7 +22,7 @@
 					<th>Statut de paiement</th>
 					<th>Mode de livraison</th>
 					<th>Statut de livraison</th>
-					<th>Action</th>
+					<th class="action">Action</th>
 				</tr>
 				<c:set var="index" value="0"/>
 				<c:forEach var="commande" items="${ commandeList }">

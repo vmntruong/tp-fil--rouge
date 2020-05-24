@@ -20,7 +20,7 @@
 					<th>Adresse</th>
 					<th>Téléphone</th>
 					<th>Email</th>
-					<th>Action</th>
+					<th class="action">Action</th>
 				</tr>
 				<c:set var="index" value="0"/>
 				<c:forEach var="client" items="${ clientList }">
