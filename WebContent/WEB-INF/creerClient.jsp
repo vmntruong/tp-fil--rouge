@@ -10,7 +10,7 @@
 	<body>
 		<c:import url="inc/menu.jsp"></c:import>
 	  <div>
-	    <form method="post" action="creationClient">
+	    <form method="post" action="creationClient" enctype="multipart/form-data">
 	    	<fieldset>
 	    	<legend>Info du client</legend>
 		    	<c:import url="inc/creerClientFieldSet.jsp"></c:import>

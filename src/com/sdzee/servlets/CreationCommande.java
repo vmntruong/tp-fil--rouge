@@ -21,6 +21,8 @@ public class CreationCommande extends HttpServlet {
 	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
 	public static final String ATT_CLIENT_LIST = "listClient";
 	
+	public static final String CHEMIN     = "chemin";
+	
 	public static final String VUE_SUCCES   = "/WEB-INF/afficherCommande.jsp";
 	public static final String VUE_FORM     = "/WEB-INF/creerCommande.jsp";
 	
@@ -41,10 +43,15 @@ public class CreationCommande extends HttpServlet {
    }
 
    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
+   	/*
+       * Lecture du paramètre 'chemin' passé à la servlet via la déclaration
+       * dans le web.xml
+       */
+      String chemin = this.getServletConfig().getInitParameter( CHEMIN );
    	/* Préparation de l'objet formulaire */
    	CreationCommandeForm form = new CreationCommandeForm();
    	/* Traitement de la requête et récupération du bean en résultant */
-   	Commande commande = form.creerCommande( request );
+   	Commande commande = form.creerCommande( request, chemin );
    	/* Récupération de la session de la requête */
    	HttpSession session = request.getSession();
         
