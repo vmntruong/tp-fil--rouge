@@ -181,8 +181,10 @@ public class CreationClientForm {
 	
 	/* Pour valider le prenom */
 	private void validationPrenomClient(String prenomClient) throws Exception {
-		if ( prenomClient == null || prenomClient.length() < 2 ) {
-			throw new Exception("Le prenom doit contenir au moins 2 caractères");
+		if ( prenomClient != null ) {
+			if ( prenomClient.length() < 2 ) {
+				throw new Exception("Le prenom doit contenir au moins 2 caractères");
+			}
 		}
 	}
 	
@@ -209,8 +211,10 @@ public class CreationClientForm {
 	
 	/* Pour valider l'adresse */
 	private void validationEmailClient(String emailClient) throws Exception {
-		if ( emailClient==null || !emailClient.matches(REGEX_EMAIL_VALID) ) {
-			throw new Exception("Adresse email est invalide");
+		if ( emailClient != null ) {
+			if ( !emailClient.matches(REGEX_EMAIL_VALID) ) {
+				throw new Exception("Adresse email est invalide");
+			}
 		}
 	}
 	
