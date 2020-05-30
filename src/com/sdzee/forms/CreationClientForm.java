@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import com.sdzee.beans.Client;
+
+import eu.medsea.mimeutil.MimeUtil;
 
 public class CreationClientForm {
 	private static final String CHAMP_NOM_CLIENT = "nomClient";
@@ -214,13 +217,31 @@ public class CreationClientForm {
 		}
 	}
 	
-	/*
+	/**
     * Valide l'image envoyée.
     */
    private void validationImage( String nomFichier, InputStream contenuFichier ) throws Exception {
-       if ( nomFichier == null || contenuFichier == null ) {
-           throw new Exception( "Merci de sélectionner un fichier à envoyer." );
-       }
+   	/**
+       * Vérifier si le fichier n'est pas vide
+       */
+   	if ( nomFichier == null || contenuFichier == null ) {
+   		throw new Exception( "Merci de sélectionner un fichier à envoyer." );
+   	} 
+   	
+   	/**
+       * Vérifier si c'est bien une image
+       */
+      /* Extraction du type MIME du fichier depuis l'InputStream nommé "contenu" */
+      MimeUtil.registerMimeDetector( "eu.medsea.mimeutil.detector.MagicMimeMimeDetector" );
+      Collection<?> mimeTypes = MimeUtil.getMimeTypes( contenuFichier );
+
+      /*
+       * Si le fichier est bien une image, alors son en-tête MIME
+       * commence par la chaîne "image"
+       */
+      if ( !mimeTypes.toString().startsWith( "image" ) ) {
+      	throw new Exception( "Le fichier selectioné n'est pas une image" );
+      }
    }
 	
 	private String getValeurChamp(HttpServletRequest request, String champ) {
