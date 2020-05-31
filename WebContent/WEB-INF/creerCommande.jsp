@@ -11,7 +11,7 @@
 	<body>
 		<c:import url="inc/menu.jsp"></c:import>
 	  <div>
-	    <form method="post" action="creationCommande">
+	    <form method="post" action="creationCommande" enctype="multipart/form-data">
 	    	<fieldset>
 	    		<legend>Informations client</legend>
 	    		<label for="isNewClient">Nouveau client ? <span class="requis">*</span></label>

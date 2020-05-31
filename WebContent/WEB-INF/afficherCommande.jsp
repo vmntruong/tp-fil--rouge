@@ -22,6 +22,7 @@
 		Adresse: ${ commande.client.adresse } <br />
 		Numéro de téléhone: ${ commande.client.telephone } <br />
 		Email: ${ commande.client.email }
+		Image: ${ commande.client.image }
 	</p>
 	
 	<p>
