@@ -20,6 +20,7 @@
 					<th>Adresse</th>
 					<th>Téléphone</th>
 					<th>Email</th>
+					<th>Image</th>
 					<th class="action">Action</th>
 				</tr>
 				<c:set var="index" value="0"/>
@@ -30,6 +31,7 @@
 						<td>${ client.adresse }</td>
 						<td>${ client.telephone }</td>
 						<td>${ client.email }</td>
+						<td><c:if test="${ !empty client.image }"><a href="<c:url value="fichiers/${ client.image }" />">Voir</a></c:if></td>
 						<td><a href="<c:url value="/suppressionClient?id=${ index }"/>">
 							<img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" />
 						</a></td>

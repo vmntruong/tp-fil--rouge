@@ -49,6 +49,14 @@
   	<servlet-name>Deconnexion</servlet-name>
 		<servlet-class>com.sdzee.servlets.Deconnexion</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DownloadImage</servlet-name>
+		<servlet-class>com.sdzee.servlets.DownloadImage</servlet-class>
+		<init-param>
+			<param-name>chemin</param-name> 
+			<param-value>\Users\Nhon\eclipse-workspace\fichiers\tp-fil-rouge\</param-value> 
+		</init-param>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>CreationClient</servlet-name>
@@ -81,6 +89,10 @@
 	<servlet-mapping>
 		<servlet-name>Deconnexion</servlet-name>
 		<url-pattern>/deconnexion</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DownloadImage</servlet-name>
+		<url-pattern>/fichiers/*</url-pattern>
 	</servlet-mapping>
 	
 	<!-- filters -->
