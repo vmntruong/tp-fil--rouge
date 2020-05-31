@@ -20,7 +20,8 @@
 			Prénom: ${ client.prenom } <br />
 			Adresse: ${ client.adresse } <br />
 			Numéro de téléhone: ${ client.telephone } <br />
-			Email: ${ client.email }
+			Email: ${ client.email } <br />
+			Image: ${ client.image }
 		</p>
 	</c:if>
 	
