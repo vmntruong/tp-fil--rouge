@@ -156,21 +156,11 @@ public class CreationClientForm {
       if ( erreurs.isEmpty() ) {
           /* Validation du champ image. */
           try {
-         	 validationImage( nomImage, contenuImage );
+         	 validationAndWriteImage( nomImage, contenuImage, chemin );
           } catch ( Exception e ) {
          	 erreurs.put( CHAMP_IMAGE, e.getMessage() );
           }
           client.setImage( nomImage );
-      }
-
-      /* Si aucune erreur n'est survenue jusqu'à présent */
-      if ( erreurs.isEmpty() ) {
-          /* Écriture du fichier sur le disque */
-          try {
-              ecrireFichier( contenuImage, nomImage, chemin );
-          } catch ( Exception e ) {
-         	 erreurs.put( CHAMP_IMAGE, "Erreur lors de l'écriture du fichier sur le disque." );
-          }
       }
       
 		if ( erreurs.isEmpty() ) {
@@ -224,28 +214,33 @@ public class CreationClientForm {
 	/**
     * Valide l'image envoyée.
     */
-   private void validationImage( String nomFichier, InputStream contenuFichier ) throws Exception {
+   private void validationAndWriteImage( String nomFichier, InputStream contenuFichier, String chemin ) throws Exception {
    	/**
-       * Vérifier si le fichier n'est pas vide
+       * Problem 4: Champ image n'est pas obligatoire
        */
-   	if ( nomFichier == null || contenuFichier == null ) {
-   		throw new Exception( "Merci de sélectionner un fichier à envoyer." );
-   	} 
-   	
-   	/**
-       * Vérifier si c'est bien une image
-       */
-      /* Extraction du type MIME du fichier depuis l'InputStream nommé "contenu" */
-      MimeUtil.registerMimeDetector( "eu.medsea.mimeutil.detector.MagicMimeMimeDetector" );
-      Collection<?> mimeTypes = MimeUtil.getMimeTypes( contenuFichier );
+   	if ( nomFichier != null && contenuFichier != null ) {
+   		/**
+          * Vérifier si c'est bien une image
+          */
+         /* Extraction du type MIME du fichier depuis l'InputStream nommé "contenu" */
+         MimeUtil.registerMimeDetector( "eu.medsea.mimeutil.detector.MagicMimeMimeDetector" );
+         Collection<?> mimeTypes = MimeUtil.getMimeTypes( contenuFichier );
 
-      /*
-       * Si le fichier est bien une image, alors son en-tête MIME
-       * commence par la chaîne "image"
-       */
-      if ( !mimeTypes.toString().startsWith( "image" ) ) {
-      	throw new Exception( "Le fichier selectioné n'est pas une image" );
-      }
+         /*
+          * Si le fichier est bien une image, alors son en-tête MIME
+          * commence par la chaîne "image"
+          */
+         if ( !mimeTypes.toString().startsWith( "image" ) ) {
+         	throw new Exception( "Le fichier selectioné n'est pas une image" );
+         }
+         
+         /* Écriture du fichier sur le disque */
+         try {
+             ecrireFichier( contenuFichier, nomFichier, chemin );
+         } catch ( Exception e ) {
+        	 erreurs.put( CHAMP_IMAGE, "Erreur lors de l'écriture du fichier sur le disque." );
+         }
+   	}
    }
 	
 	private String getValeurChamp(HttpServletRequest request, String champ) {
