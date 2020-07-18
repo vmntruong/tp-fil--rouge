@@ -1,8 +1,11 @@
 package com.sdzee.beans;
 
+import org.joda.time.DateTime;
+
 public class Commande {
+	private Long id;
 	private Client client;
-	private String date;
+	private DateTime date;
 	private double montant;
 	private String modePaiement;
 	private String statutPaiement;
@@ -15,10 +18,10 @@ public class Commande {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	public String getDate() {
+	public DateTime getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(DateTime date) {
 		this.date = date;
 	}
 	public double getMontant() {
@@ -50,6 +53,12 @@ public class Commande {
 	}
 	public void setStatutLivraison(String statutLivraison) {
 		this.statutLivraison = statutLivraison;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

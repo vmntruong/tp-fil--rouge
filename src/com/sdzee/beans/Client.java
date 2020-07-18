@@ -6,6 +6,10 @@ package com.sdzee.beans;
  *
  */
 public class Client {
+	
+	/* Id */
+	private Long id;
+	
 	/* Nom du client */
 	private String nom;
 	
@@ -70,5 +74,13 @@ public class Client {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

@@ -74,8 +74,8 @@ public final class CreationCommandeForm {
 		 * choisi.
 		 */
 		DateTime dt = new DateTime();
-		DateTimeFormatter formatter = DateTimeFormat.forPattern( FORMAT_DATE );
-		String date = dt.toString( formatter );
+		// DateTimeFormatter formatter = DateTimeFormat.forPattern( FORMAT_DATE );
+		// String date = dt.toString( formatter );
 		String montant = getValeurChamp( request, CHAMP_MONTANT );
 		String modePaiement = getValeurChamp( request, CHAMP_MODE_PAIEMENT );
 		String statutPaiement = getValeurChamp( request, CHAMP_STATUT_PAIEMENT );
@@ -83,7 +83,7 @@ public final class CreationCommandeForm {
 		String statutLivraison = getValeurChamp( request, CHAMP_STATUT_LIVRAISON );
 		Commande commande = new Commande();
 		commande.setClient( client );
-		commande.setDate( date );
+		commande.setDate( dt );
 		double valeurMontant = -1;
 		
 		try {
