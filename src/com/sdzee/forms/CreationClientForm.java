@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import com.sdzee.beans.Client;
+import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.DAOException;
 
 import eu.medsea.mimeutil.MimeUtil;
 
@@ -33,6 +35,17 @@ public class CreationClientForm {
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
+	private ClientDao clientDao;
+	
+	/**
+	 * Constructeur
+	 * 
+	 * @param clientDao
+	 */
+	public CreationClientForm( ClientDao clientDao ) {
+		super();
+		this.clientDao = clientDao;
+	}
 	
 	public String getResultat() {
 		return resultat;
@@ -52,46 +65,43 @@ public class CreationClientForm {
 		Client client = new Client();
 		
 		try {
-			validationNomClient(nomClient);
-		} catch (Exception e) {
-			erreurs.put(CHAMP_NOM_CLIENT, e.getMessage());
+			traiterNomClient( nomClient, client );
+			traiterPrenomClient( prenomClient, client );
+			traiterAdresseClient( adresseClient, client );
+			traiterTelephoneClient( telephoneClient, client );
+			traiterEmailClient( emailClient, client );
+			recupererEtTraiterImage( request, CHAMP_IMAGE, client, chemin);
+			
+			if ( erreurs.isEmpty() ) {
+				clientDao.creer( client );
+				resultat = "Succès de création du client.";
+			} else {
+				resultat = "Echec de création du client.";
+			}
+		} catch( DAOException e ) {
+			resultat = "Échec de la création : une erreur imprévue est survenue, "
+					+ "merci de réessayer dans quelques instants.";
+	      e.printStackTrace();
 		}
-		client.setNom(nomClient);
 		
-		try {
-			validationPrenomClient(prenomClient);
-		} catch (Exception e) {
-			erreurs.put(CHAMP_PRENOM_CLIENT, e.getMessage());
-		}
-		client.setPrenom(prenomClient);
-		
-		try {
-			validationAdresseClient(adresseClient);
-		} catch (Exception e) {
-			erreurs.put(CHAMP_ADRESSE_CLIENT, e.getMessage());
-		}
-		client.setAdresse(adresseClient);
-		
-		try {
-			validationTelephoneClient(telephoneClient);
-		} catch (Exception e) {
-			erreurs.put(CHAMP_TELEPHONE_CLIENT, e.getMessage());
-		}
-		client.setTelephone(telephoneClient);
-		
-		try {
-			validationEmailClient(emailClient);
-		} catch (Exception e) {
-			erreurs.put(CHAMP_EMAIL_CLIENT, e.getMessage());
-		}
-		client.setEmail(emailClient);
-		
+		return client;
+	}
+	
+	/**
+	 * Récupération du nom de l'image
+	 * 
+	 * @param request
+	 * @param champImage
+	 * @return
+	 */
+	private void recupererEtTraiterImage( HttpServletRequest request, String champImage, Client client, String chemin ) {
 		/*
        * Récupération du contenu du champ image du formulaire. 
        * Il faut ici utiliser la méthode getPart().
        */
       String nomImage = null;
       InputStream contenuImage = null;
+      
       try {
           Part part = request.getPart( CHAMP_IMAGE );
           /*
@@ -119,10 +129,7 @@ public class CreationClientForm {
                */
          	 nomImage = nomImage.substring( nomImage.lastIndexOf( '/' ) + 1 )
                       .substring( nomImage.lastIndexOf( '\\' ) + 1 );
-
-              /* Récupération du contenu du fichier */
          	 contenuImage = part.getInputStream();
-
           }
       } catch ( IllegalStateException e ) {
           /*
@@ -162,16 +169,56 @@ public class CreationClientForm {
           }
           client.setImage( nomImage );
       }
-      
-		if ( erreurs.isEmpty() ) {
-			resultat = "Succès de la création du client";
-		} else {
-			resultat = "Échec de la création du client";
-		}
-      
-		return client;
 	}
-	
+
+	private void traiterEmailClient(String emailClient, Client client) {
+		try {
+			validationEmailClient(emailClient);
+		} catch (Exception e) {
+			erreurs.put(CHAMP_EMAIL_CLIENT, e.getMessage());
+		}
+		client.setEmail(emailClient);		
+	}
+
+	private void traiterTelephoneClient(String telephoneClient, Client client) {
+		try {
+			validationTelephoneClient(telephoneClient);
+		} catch (Exception e) {
+			erreurs.put(CHAMP_TELEPHONE_CLIENT, e.getMessage());
+		}
+		client.setTelephone(telephoneClient);		
+	}
+
+	private void traiterAdresseClient(String adresseClient, Client client) {
+		try {
+			validationAdresseClient(adresseClient);
+		} catch (Exception e) {
+			erreurs.put(CHAMP_ADRESSE_CLIENT, e.getMessage());
+		}
+		client.setAdresse(adresseClient);
+		
+	}
+
+	private void traiterPrenomClient(String prenomClient, Client client) {
+		try {
+			validationPrenomClient(prenomClient);
+		} catch (Exception e) {
+			erreurs.put(CHAMP_PRENOM_CLIENT, e.getMessage());
+		}
+		client.setPrenom(prenomClient);
+		
+	}
+
+	private void traiterNomClient( String nomClient, Client client ) {
+		try {
+			validationNomClient( nomClient );
+		} catch ( Exception e ) {
+			erreurs.put( CHAMP_NOM_CLIENT, e.getMessage() );
+		}
+		client.setNom( nomClient );
+		
+	}
+
 	/* Pour valider le prenom */
 	private void validationPrenomClient(String prenomClient) throws Exception {
 		if ( prenomClient != null ) {
