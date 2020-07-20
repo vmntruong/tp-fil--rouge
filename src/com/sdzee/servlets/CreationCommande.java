@@ -12,9 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
+import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
+import com.sdzee.dao.DAOFactory;
 import com.sdzee.forms.CreationCommandeForm;
 
 public class CreationCommande extends HttpServlet {
+	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_COMMANDE = "commande";
 	public static final String ATT_FORM     = "form";
 	public static final String ATT_SESSION_COMMANDE_LIST = "sessionCommandeList";
@@ -25,6 +29,16 @@ public class CreationCommande extends HttpServlet {
 	
 	public static final String VUE_SUCCES   = "/WEB-INF/afficherCommande.jsp";
 	public static final String VUE_FORM     = "/WEB-INF/creerCommande.jsp";
+	
+	private CommandeDao commandeDao;
+	private ClientDao clientDao;
+	
+	public void init() throws ServletException {
+		/* Récupération d'une instance de notre DAO Utilisateur */
+		DAOFactory daoFactory = (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY );
+		this.clientDao = daoFactory.getClientDao();
+		this.commandeDao = daoFactory.getCommandeDao();
+	}
 	
    public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
    	/* Récupération de la session de la requête */
@@ -49,7 +63,7 @@ public class CreationCommande extends HttpServlet {
        */
       String chemin = this.getServletConfig().getInitParameter( CHEMIN );
    	/* Préparation de l'objet formulaire */
-   	CreationCommandeForm form = new CreationCommandeForm();
+   	CreationCommandeForm form = new CreationCommandeForm( commandeDao, clientDao );
    	/* Traitement de la requête et récupération du bean en résultant */
    	Commande commande = form.creerCommande( request, chemin );
    	/* Récupération de la session de la requête */

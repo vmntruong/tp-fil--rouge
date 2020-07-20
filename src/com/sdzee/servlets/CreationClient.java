@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
+import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.DAOFactory;
 import com.sdzee.forms.CreationClientForm;
 
 @MultipartConfig()
 public class CreationClient extends HttpServlet {
+	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String CHEMIN     = "chemin";
 	public static final String ATT_CLIENT = "client";
 	public static final String ATT_FORM = "form";
@@ -28,6 +31,15 @@ public class CreationClient extends HttpServlet {
 			+ "<a href='creationClient'>Cliquez ici</a> pour accéder au formulaire de création d'un client.";
 	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
 	
+	private ClientDao clientDao;
+	
+	@Override
+	public void init() throws ServletException {
+		/* Récupération d'une instance de notre DAO Utilisateur */
+		this.clientDao = ((DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ))
+				.getClientDao();
+	}
+
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) 
 			throws ServletException, IOException {
 		
@@ -42,7 +54,7 @@ public class CreationClient extends HttpServlet {
        */
       String chemin = this.getServletConfig().getInitParameter( CHEMIN );
 		/* Préparation de l'objet formulaire */
-		CreationClientForm form = new CreationClientForm();
+		CreationClientForm form = new CreationClientForm( clientDao );
 		/* Traitement de la requête et récupération du bean en résultant */
   	 	Client client = form.creerClient(request, chemin);
 		/* Récupération de la session depuis la requête */

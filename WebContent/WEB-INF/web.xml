@@ -68,6 +68,10 @@
 		</init-param>
 	</servlet>
 	
+	<listener>
+		<listener-class>com.sdzee.config.InitialisationDaoFactory</listener-class>
+	</listener>
+	
 	<servlet-mapping>
 		<servlet-name>CreationClient</servlet-name>
 		<url-pattern>/creationClient</url-pattern>

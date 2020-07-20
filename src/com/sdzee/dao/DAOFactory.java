@@ -82,4 +82,11 @@ public class DAOFactory {
      * Méthodes de récupération de l'implémentation des différents DAO (un seul
      * pour le moment)
      */
+    public ClientDao getClientDao() {
+   	 return new ClientDaoImpl( this );
+    }
+    
+    public CommandeDao getCommandeDao() {
+   	 return new CommandeDaoImpl( this );
+    }
 }

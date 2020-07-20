@@ -13,6 +13,9 @@ import org.joda.time.format.DateTimeFormatter;
 
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
+import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
+import com.sdzee.dao.DAOException;
 
 public final class CreationCommandeForm {
 	private static final String CHAMP_CHOIX_NEW_CLIENT = "isNewClient";
@@ -25,9 +28,21 @@ public final class CreationCommandeForm {
 	private static final String FORMAT_DATE            = "dd/MM/yyyy HH:mm:ss";
 	private static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
 
-	private String              resultat;
-	private Map<String, String> erreurs                = new HashMap<String, String>();
-
+	private String resultat;
+	private Map<String, String> erreurs = new HashMap<String, String>();
+	private CommandeDao commandeDao;
+	private ClientDao clientDao;
+	
+	/**
+	 * Constructeur
+	 * 
+	 * @param commandeDao
+	 */
+	public CreationCommandeForm( CommandeDao commandeDao, ClientDao clientDao ) {
+		this.commandeDao = commandeDao;
+		this.clientDao = clientDao;
+	}
+	
 	public Map<String, String> getErreurs() {
 		return erreurs;
 	}
@@ -37,16 +52,18 @@ public final class CreationCommandeForm {
 	}
 
 	public Commande creerCommande( HttpServletRequest request, String chemin ) {
+		
 		/*
 		* L'objet métier pour valider la création d'un client existe déjà, il
 		* est donc déconseillé de dupliquer ici son contenu ! À la place, il
 		* suffit de passer la requête courante à l'objet métier existant et de
 		* récupérer l'objet Client créé.
 		*/
-		CreationClientForm clientForm = new CreationClientForm();
+		CreationClientForm clientForm = new CreationClientForm( clientDao );
 		Client client = new Client();
 		HttpSession session = request.getSession();
 		List<Client> listClient = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
+		
 		/*
 		* Si c'est un nouveau client
 		*/
@@ -84,49 +101,73 @@ public final class CreationCommandeForm {
 		Commande commande = new Commande();
 		commande.setClient( client );
 		commande.setDate( dt );
-		double valeurMontant = -1;
 		
+		try {
+			traiterMontant( montant, commande );
+			traiterModePaiment( modePaiement, commande );
+			traiterStatutPaiment( statutPaiement, commande );
+			traiterModeLivraison( modeLivraison, commande );
+			traiterStatutLivraison( statutLivraison, commande );
+			
+			if ( erreurs.isEmpty() ) {
+				resultat = "Succès de la création de la commande.";
+			} else {
+				resultat = "Échec de la création de la commande.";
+			}
+		} catch( DAOException e ) {
+			resultat = "Échec de la création de commande: une erreur imprévue est survenue, "
+					+ "merci de réessayer dans quelques instants.";
+	      e.printStackTrace();
+		}
+		
+		return commande;
+	}
+
+	private void traiterStatutLivraison(String statutLivraison, Commande commande) {
+		try {
+			validationStatutLivraison( statutLivraison );
+		} catch ( Exception e ) {
+			setErreur( CHAMP_STATUT_LIVRAISON, e.getMessage() );
+		}
+		commande.setStatutLivraison( statutLivraison );		
+	}
+
+	private void traiterModeLivraison(String modeLivraison, Commande commande) {
+		try {
+			validationModeLivraison( modeLivraison );
+		} catch ( Exception e ) {
+			setErreur( CHAMP_MODE_LIVRAISON, e.getMessage() );
+		}
+		commande.setModeLivraison( modeLivraison );		
+	}
+
+	private void traiterStatutPaiment(String statutPaiement, Commande commande) {
+		try {
+			validationStatutPaiement( statutPaiement );
+		} catch ( Exception e ) {
+			setErreur( CHAMP_STATUT_PAIEMENT, e.getMessage() );
+		}
+		commande.setStatutPaiement( statutPaiement );		
+	}
+
+	private void traiterModePaiment(String modePaiement, Commande commande) {
+		try {
+			validationModePaiement( modePaiement );
+		} catch ( Exception e ) {
+			setErreur( CHAMP_MODE_PAIEMENT, e.getMessage() );
+		}
+		commande.setModePaiement( modePaiement );		
+	}
+
+	private void traiterMontant(String montant, Commande commande) {
+		double valeurMontant = -1;
 		try {
 			valeurMontant = validationMontant( montant );
 		} catch ( Exception e ) {
 			setErreur( CHAMP_MONTANT, e.getMessage() );
 		}
 		commande.setMontant( valeurMontant );
-
-		try {
-			validationModePaiement( modePaiement );
-		} catch ( Exception e ) {
-			setErreur( CHAMP_MODE_PAIEMENT, e.getMessage() );
-		}
-		commande.setModePaiement( modePaiement );
-
-		try {
-			validationStatutPaiement( statutPaiement );
-		} catch ( Exception e ) {
-			setErreur( CHAMP_STATUT_PAIEMENT, e.getMessage() );
-		}
-		commande.setStatutPaiement( statutPaiement );
-
-		try {
-			validationModeLivraison( modeLivraison );
-		} catch ( Exception e ) {
-			setErreur( CHAMP_MODE_LIVRAISON, e.getMessage() );
-		}
-		commande.setModeLivraison( modeLivraison );
-
-		try {
-			validationStatutLivraison( statutLivraison );
-		} catch ( Exception e ) {
-			setErreur( CHAMP_STATUT_LIVRAISON, e.getMessage() );
-		}
-		commande.setStatutLivraison( statutLivraison );
-
-		if ( erreurs.isEmpty() ) {
-			resultat = "Succès de la création de la commande.";
-		} else {
-			resultat = "Échec de la création de la commande.";
-		}
-		return commande;
+		
 	}
 
 	private boolean isNewClient(HttpServletRequest request) {
