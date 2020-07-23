@@ -1,15 +1,12 @@
 package com.sdzee.forms;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
@@ -26,7 +23,7 @@ public final class CreationCommandeForm {
 	private static final String CHAMP_MODE_LIVRAISON   = "modeLivraisonCommande";
 	private static final String CHAMP_STATUT_LIVRAISON = "statutLivraisonCommande";
 	private static final String FORMAT_DATE            = "dd/MM/yyyy HH:mm:ss";
-	private static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
+	private static final String ATT_SESSION_CLIENT_MAP = "sessionClientMap";
 
 	private String resultat;
 	private Map<String, String> erreurs = new HashMap<String, String>();
@@ -62,7 +59,7 @@ public final class CreationCommandeForm {
 		CreationClientForm clientForm = new CreationClientForm( clientDao );
 		Client client = new Client();
 		HttpSession session = request.getSession();
-		List<Client> listClient = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
+		Map<Long, Client> clientMap = (Map<Long, Client>) session.getAttribute( ATT_SESSION_CLIENT_MAP );
 		
 		/*
 		* Si c'est un nouveau client
@@ -78,8 +75,8 @@ public final class CreationCommandeForm {
 		}
 		else {
 			/* Sinon récupérer de la session */
-			int index = Integer.parseInt(getValeurChamp(request, CHAMP_DROPDOWN_LIST_CLIENT));
-			client = listClient.get(index);
+			long index = Long.parseLong( getValeurChamp( request, CHAMP_DROPDOWN_LIST_CLIENT ) );
+			client = clientMap.get( index );
 		}
 
 		/*

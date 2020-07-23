@@ -1,7 +1,7 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,24 +14,24 @@ import com.sdzee.beans.Client;
 public class SuppressionClient extends HttpServlet {
 	public static final String VUE = "listerClients";
 	public static final String PARAM_INDEX = "id";
-	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
+	public static final String ATT_SESSION_CLIENT_MAP = "sessionClientMap";
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// Get the index parsed in the request param
-		int index = Integer.parseInt( req.getParameter( PARAM_INDEX ) );
+		long index = Long.parseLong( req.getParameter( PARAM_INDEX ) );
 		
 		// Get the session from the request
 		HttpSession session = req.getSession();
 		
 		// Get the list of clients from session
-		List<Client> clientList = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
+		Map<Long, Client> clientMap = (Map<Long, Client>) session.getAttribute( ATT_SESSION_CLIENT_MAP );
 		
 		// Supprimer l'élément de la liste des clients
 		if ( session != null ) {
-			if ( index >= 0 && index < clientList.size() ) {
-				clientList.remove( index );
-				session.setAttribute( ATT_SESSION_CLIENT_LIST, clientList );
+			if ( index >= 0 ) {
+				clientMap.remove( index );
+				session.setAttribute( ATT_SESSION_CLIENT_MAP, clientMap );
 			}
 		}
 		

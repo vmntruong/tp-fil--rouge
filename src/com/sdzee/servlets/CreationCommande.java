@@ -1,8 +1,8 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,9 +21,9 @@ public class CreationCommande extends HttpServlet {
 	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_COMMANDE = "commande";
 	public static final String ATT_FORM     = "form";
-	public static final String ATT_SESSION_COMMANDE_LIST = "sessionCommandeList";
-	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
-	public static final String ATT_CLIENT_LIST = "listClient";
+	public static final String ATT_SESSION_COMMANDE_MAP = "sessionCommandeMap";
+	public static final String ATT_SESSION_CLIENT_MAP = "sessionClientMap";
+	public static final String ATT_CLIENT_MAP = "clientMap";
 	
 	public static final String CHEMIN     = "chemin";
 	
@@ -44,12 +44,12 @@ public class CreationCommande extends HttpServlet {
    	/* Récupération de la session de la requête */
    	HttpSession session = request.getSession();
    	/* Récupération de la liste des clients de la session */
-   	List<Client> clientList = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
+   	Map<Long, Client> clientMap = (Map<Long, Client>) session.getAttribute( ATT_SESSION_CLIENT_MAP );
    	
-   	if ( clientList != null && !clientList.isEmpty() && clientList.size() > 0 ) {
-   		request.setAttribute(ATT_CLIENT_LIST, clientList);
+   	if ( clientMap != null && !clientMap.isEmpty() && clientMap.size() > 0 ) {
+   		request.setAttribute(ATT_CLIENT_MAP, clientMap);
    	} else {
-   		request.setAttribute(ATT_CLIENT_LIST, null);
+   		request.setAttribute(ATT_CLIENT_MAP, null);
    	}
    	
 	   /* À la réception d'une requête GET, affichage du formulaire */
@@ -74,15 +74,15 @@ public class CreationCommande extends HttpServlet {
    	 * Commande à la session, sinon on fait rien
    	 */
    	if ( form.getErreurs().isEmpty() ) {
-   		List<Commande> commandeList = (List<Commande>) session.getAttribute( ATT_SESSION_COMMANDE_LIST );
-   		if (commandeList != null) {
-   			commandeList.add(commande);
-   			session.setAttribute( ATT_SESSION_COMMANDE_LIST, commandeList );
+   		Map<Long, Commande> commandeMap = (Map<Long, Commande>) session.getAttribute( ATT_SESSION_COMMANDE_MAP );
+   		if (commandeMap != null) {
+   			commandeMap.put( commande.getId(), commande );
+   			session.setAttribute( ATT_SESSION_COMMANDE_MAP, commandeMap );
    		}
    		else {
-   			List<Commande> li = new ArrayList<Commande>();
-   			li.add(commande);
-   			session.setAttribute( ATT_SESSION_COMMANDE_LIST, li );
+   			Map<Long, Commande> map = new HashMap<Long, Commande>();
+   			map.put( commande.getId(), commande );
+   			session.setAttribute( ATT_SESSION_COMMANDE_MAP, map );
    		}
    	}
 

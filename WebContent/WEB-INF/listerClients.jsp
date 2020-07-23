@@ -12,7 +12,7 @@
 	<!-- Import the menu -->
 	<c:import url="inc/menu.jsp"></c:import>
 	<c:choose>
-		<c:when test="${ !empty clientList }">
+		<c:when test="${ !empty clientMap }">
 			<table>
 				<tr>
 					<th>Nom</th>
@@ -23,19 +23,17 @@
 					<th>Image</th>
 					<th class="action">Action</th>
 				</tr>
-				<c:set var="index" value="0"/>
-				<c:forEach var="client" items="${ clientList }">
-					<tr id="${ index }">
-						<td>${ client.nom }</td>
-						<td>${ client.prenom }</td>
-						<td>${ client.adresse }</td>
-						<td>${ client.telephone }</td>
-						<td>${ client.email }</td>
-						<td><c:if test="${ !empty client.image }"><a href="<c:url value="fichiers/${ client.image }" />">Voir</a></c:if></td>
-						<td><a href="<c:url value="/suppressionClient?id=${ index }"/>">
+				<c:forEach var="client" items="${ clientMap }">
+					<tr id="${ client.key }">
+						<td>${ client.value.nom }</td>
+						<td>${ client.value.prenom }</td>
+						<td>${ client.value.adresse }</td>
+						<td>${ client.value.telephone }</td>
+						<td>${ client.value.email }</td>
+						<td><c:if test="${ !empty client.value.image }"><a href="<c:url value="fichiers/${ client.value.image }" />">Voir</a></c:if></td>
+						<td><a href="<c:url value="/suppressionClient?id=${ client.key }"/>">
 							<img alt="supprimer" src="<c:url value="/inc/imgs/remove_icon.png" />" />
 						</a></td>
-						<c:set var="index" value="${ index+1 }" />
 					</tr>
 				</c:forEach>
 			</table>

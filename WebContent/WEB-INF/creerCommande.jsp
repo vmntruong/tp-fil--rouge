@@ -30,11 +30,9 @@
 	      	<!-- not display this list as default -->
 	      	<select id="dropdownClientList" name="dropdownClientList" style="display:none">
 					  <option value="undefined">Choisir un client...</option>
-					  <c:if test="${ !empty listClient }">
-					  	<c:set var="index" value="0" />
-					  	<c:forEach var="client" items="${ listClient }">
-					  		<option value="${ index }">${ client.nom } ${ client.prenom }</option>
-					  		<c:set var="index" value="${ index+1 }" />
+					  <c:if test="${ !empty clientMap }">
+					  	<c:forEach var="client" items="${ clientMap }">
+					  		<option value="${ client.key }">${ client.value.nom } ${ client.value.prenom }</option>
 					  	</c:forEach>
 					  </c:if>					  
 					</select>

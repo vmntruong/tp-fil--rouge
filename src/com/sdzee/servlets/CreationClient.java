@@ -1,8 +1,8 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -29,7 +29,7 @@ public class CreationClient extends HttpServlet {
 	public static final String MESSAGE_ERROR = "Erreur - Vous n'avez pas rempli tous les champs"
 			+ " obligatoires.<br/>"
 			+ "<a href='creationClient'>Cliquez ici</a> pour accéder au formulaire de création d'un client.";
-	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
+	public static final String ATT_SESSION_CLIENT_MAP = "sessionClientMap";
 	
 	private ClientDao clientDao;
 	
@@ -66,15 +66,15 @@ public class CreationClient extends HttpServlet {
   	  	* Client à la session, sinon on fait rien
   	  	*/
   	 	if ( form.getErreurs().isEmpty() ) {
-  	 		List<Client> clientList = (List<Client>) session.getAttribute( ATT_SESSION_CLIENT_LIST );
-  	 		if (clientList != null) {
-  	 			clientList.add(client);
-  	 			session.setAttribute( ATT_SESSION_CLIENT_LIST, clientList );
+  	 		Map<Long, Client> clientMap = (Map<Long, Client>) session.getAttribute( ATT_SESSION_CLIENT_MAP );
+  	 		if (clientMap != null) {
+  	 			clientMap.put( client.getId(), client );
+  	 			session.setAttribute( ATT_SESSION_CLIENT_MAP, clientMap );
   	 		}
   	 		else {
-  	 			List<Client> li = new ArrayList<Client>();
-  	 			li.add(client);
-  	 			session.setAttribute( ATT_SESSION_CLIENT_LIST, li );
+  	 			Map<Long, Client> map = new HashMap<Long, Client>();
+  	 			map.put( client.getId(), client );
+  	 			session.setAttribute( ATT_SESSION_CLIENT_MAP, map );
   	 		}
   	 	}
 		

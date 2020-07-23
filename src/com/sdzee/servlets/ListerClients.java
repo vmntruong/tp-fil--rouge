@@ -1,7 +1,7 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,19 +13,19 @@ import com.sdzee.beans.Client;
 
 public class ListerClients extends HttpServlet {
 	public static final String VUE = "/WEB-INF/listerClients.jsp";
-	public static final String ATT_SESSION_CLIENT_LIST = "sessionClientList";
-	public static final String ATT_CLIENT_LIST = "clientList";
+	public static final String ATT_SESSION_CLIENT_MAP = "sessionClientMap";
+	public static final String ATT_CLIENT_MAP = "clientMap";
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		List<Client> clientList = (List<Client>) session.getAttribute(ATT_SESSION_CLIENT_LIST);
+		Map<Long, Client> clientMap = (Map<Long, Client>) session.getAttribute(ATT_SESSION_CLIENT_MAP);
 		
-		if ( clientList != null && !clientList.isEmpty() ) {
-			req.setAttribute(ATT_CLIENT_LIST, clientList);
+		if ( clientMap != null && !clientMap.isEmpty() ) {
+			req.setAttribute(ATT_CLIENT_MAP, clientMap);
 		}
 		else {
-			req.setAttribute(ATT_CLIENT_LIST, null);
+			req.setAttribute(ATT_CLIENT_MAP, null);
 		}
 		
 		req.getServletContext().getRequestDispatcher(VUE).forward(req, resp);
