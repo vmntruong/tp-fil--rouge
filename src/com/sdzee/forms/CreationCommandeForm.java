@@ -107,6 +107,7 @@ public final class CreationCommandeForm {
 			traiterStatutLivraison( statutLivraison, commande );
 			
 			if ( erreurs.isEmpty() ) {
+				commandeDao.creer( commande );
 				resultat = "Succès de la création de la commande.";
 			} else {
 				resultat = "Échec de la création de la commande.";

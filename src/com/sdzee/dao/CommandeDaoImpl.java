@@ -72,7 +72,7 @@ public class CommandeDaoImpl implements CommandeDao {
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee( connexion, SQL_INSERT, true,
 					commande.getClient().getId(),
-					commande.getDate(),
+					commande.getDate().toString(),
 					commande.getMontant(),
 					commande.getModePaiement(),
 					commande.getStatutPaiement(),
