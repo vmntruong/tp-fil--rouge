@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
 				<c:forEach var="commande" items="${ commandeMap }">
 					<tr id="${ commande.key }">
 						<td>${ commande.value.client.nom } ${ commande.value.client.prenom }</td>
-						<td>${ commande.value.date }</td>
+						<td><joda:format value="${ commande.value.date }" pattern="dd/MM/yyyy HH:mm:ss"></joda:format></td>
 						<td>${ commande.value.montant }</td>
 						<td>${ commande.value.modePaiement }</td>
 						<td>${ commande.value.statutPaiement }</td>
